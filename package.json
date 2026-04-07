@@ -1,0 +1,18 @@
+{
+  "name": "my-monorepo-vue",
+  "private": true,
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "type-check": "turbo run type-check",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "release": "pnpm build && changeset publish"
+  },
+  "devDependencies": {
+    "turbo": "^1.13.0",
+    "@changesets/cli": "^2.27.0"
+  }
+}
