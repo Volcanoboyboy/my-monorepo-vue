@@ -12,6 +12,7 @@
     "docs:build": "vitepress build",
     "docs:preview": "vitepress preview"
   },
+  "private": true,
   "keywords": [],
   "author": "",
   "license": "ISC",

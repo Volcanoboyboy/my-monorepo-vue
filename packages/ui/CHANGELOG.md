@@ -1,5 +1,11 @@
 # @zen-repo/ui
 
+## 0.0.3
+
+### Patch Changes
+
+- 移除 docs 发布
+
 ## 0.0.2
 
 ### Patch Changes
