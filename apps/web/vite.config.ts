@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      '@my-repo/ui': fileURLToPath(new URL('../../packages/ui/src/index.ts', import.meta.url)),
+      '@zen-repo/ui': fileURLToPath(new URL('../../packages/ui/src/index.ts', import.meta.url)),
     },
   },
   server: {

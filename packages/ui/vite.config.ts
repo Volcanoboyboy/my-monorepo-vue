@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
 import dts from 'vite-plugin-dts'
 import { resolve } from 'path'
@@ -9,7 +9,12 @@ export default defineConfig({
     dts({
       insertTypesEntry: true,
     }),
+    
   ],
+  test: {
+    globals: true,
+    environment: 'jsdom',
+  },
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),

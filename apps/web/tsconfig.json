@@ -7,7 +7,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@my-repo/ui": ["../../packages/ui/src/index.ts"]
+      "@zen-repo/ui": ["../../packages/ui/src/index.ts"]
     }
   },
   "include": [

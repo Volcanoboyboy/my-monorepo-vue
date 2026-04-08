@@ -1,5 +1,5 @@
 {
-  "name": "@my-repo/web",
+  "name": "@zen-repo/web",
   "version": "0.0.1",
   "type": "module",
   "private": true,
@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "vue": "^3.4.0",
-    "@my-repo/ui": "workspace:^"
+    "@zen-repo/ui": "workspace:^",
+    "@zen-repo/utils": "workspace:^"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.0",

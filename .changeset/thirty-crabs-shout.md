@@ -1,5 +1,5 @@
 ---
-"@my-repo/ui": patch
+"@zen-repo/ui": patch
 ---
 
 release 0.0.1

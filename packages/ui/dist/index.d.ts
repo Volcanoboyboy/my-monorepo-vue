@@ -1,4 +1,4 @@
-import { default as Button } from './Button.vue';
-export { Button };
-export type { default as ButtonType } from './Button.vue';
+export { default as Button } from './Button.vue';
+export { default as Input } from './Input.vue';
+export { default as Modal } from './Modal.vue';
 //# sourceMappingURL=index.d.ts.map
