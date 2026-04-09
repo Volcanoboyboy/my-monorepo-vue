@@ -1,12 +1,319 @@
-.my-button {
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+﻿:root {
+  --zen-font-sans: 'Space Grotesk', 'Avenir Next', 'Segoe UI Variable', sans-serif;
+  --zen-color-bg: #081120;
+  --zen-color-panel: rgba(10, 18, 34, 0.82);
+  --zen-color-panel-strong: #10182a;
+  --zen-color-border: rgba(148, 163, 184, 0.18);
+  --zen-color-text: #ecf2ff;
+  --zen-color-text-muted: rgba(236, 242, 255, 0.68);
+  --zen-color-primary-start: #78f3d2;
+  --zen-color-primary-end: #7c5cff;
+  --zen-color-danger: #ff6b7a;
+  --zen-shadow-soft: 0 18px 48px rgba(3, 10, 24, 0.28);
 }
 
-.my-button:hover {
-  background-color: #0056b3;
+.zen-button,
+.zen-input,
+.zen-modal {
+  font-family: var(--zen-font-sans);
+}
+
+.zen-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--zen-color-primary-start), var(--zen-color-primary-end));
+  color: #06111b;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  box-shadow: 0 16px 34px rgba(124, 92, 255, 0.22);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.zen-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 44px rgba(120, 243, 210, 0.22);
+}
+
+.zen-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+}
+
+.zen-button--sm {
+  min-height: 36px;
+  padding: 0 14px;
+  font-size: 13px;
+}
+
+.zen-button--md {
+  min-height: 44px;
+  padding: 0 18px;
+  font-size: 14px;
+}
+
+.zen-button--lg {
+  min-height: 52px;
+  padding: 0 22px;
+  font-size: 15px;
+}
+
+.zen-button--secondary {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--zen-color-border);
+  color: var(--zen-color-text);
+  box-shadow: none;
+}
+
+.zen-button--ghost {
+  background: transparent;
+  border-color: rgba(120, 243, 210, 0.38);
+  color: #9ef7dd;
+  box-shadow: none;
+}
+
+.zen-button--danger {
+  background: linear-gradient(135deg, #ff8a7a, var(--zen-color-danger));
+  color: white;
+}
+
+.zen-button.is-block {
+  width: 100%;
+}
+
+.zen-button__prefix,
+.zen-button__suffix,
+.zen-button__content {
+  display: inline-flex;
+  align-items: center;
+}
+
+.zen-button__spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(6, 17, 27, 0.24);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: zen-spin 0.7s linear infinite;
+}
+
+.zen-input {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+  color: var(--zen-color-text);
+}
+
+.zen-input__label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--zen-color-text-muted);
+}
+
+.zen-input__control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid var(--zen-color-border);
+  border-radius: 18px;
+  background: rgba(10, 18, 34, 0.72);
+  box-shadow: var(--zen-shadow-soft);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.zen-input:focus-within .zen-input__control {
+  border-color: rgba(120, 243, 210, 0.74);
+  box-shadow: 0 0 0 4px rgba(120, 243, 210, 0.12);
+}
+
+.zen-input__field {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--zen-color-text);
+  font: inherit;
+}
+
+.zen-input__field::placeholder {
+  color: rgba(236, 242, 255, 0.38);
+}
+
+.zen-input__icon,
+.zen-input__clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(236, 242, 255, 0.62);
+}
+
+.zen-input__clear {
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.zen-input__message {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--zen-color-text-muted);
+}
+
+.zen-input--sm .zen-input__control {
+  min-height: 40px;
+  border-radius: 14px;
+}
+
+.zen-input--lg .zen-input__control {
+  min-height: 54px;
+  border-radius: 20px;
+}
+
+.zen-input.is-invalid .zen-input__control {
+  border-color: rgba(255, 107, 122, 0.72);
+  box-shadow: 0 0 0 4px rgba(255, 107, 122, 0.12);
+}
+
+.zen-input.is-invalid .zen-input__message {
+  color: #ffb1ba;
+}
+
+.zen-input.is-disabled {
+  opacity: 0.66;
+}
+
+.zen-modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(2, 6, 18, 0.7);
+  backdrop-filter: blur(12px);
+  z-index: 1000;
+}
+
+.zen-modal {
+  width: min(100%, 520px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(13, 21, 39, 0.96), rgba(8, 14, 28, 0.96));
+  color: var(--zen-color-text);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.46);
+  overflow: hidden;
+}
+
+.zen-modal__header,
+.zen-modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 24px;
+}
+
+.zen-modal__header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.zen-modal__title {
+  margin: 0;
+  font-size: 24px;
+  letter-spacing: -0.04em;
+}
+
+.zen-modal__description {
+  margin: 8px 0 0;
+  color: var(--zen-color-text-muted);
+  line-height: 1.6;
+}
+
+.zen-modal__body {
+  padding: 24px;
+  line-height: 1.7;
+}
+
+.zen-modal__footer {
+  justify-content: flex-end;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.zen-modal__close,
+.zen-modal__action {
+  border: none;
+  cursor: pointer;
+  font: inherit;
+}
+
+.zen-modal__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--zen-color-text);
+  font-size: 24px;
+}
+
+.zen-modal__action {
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 14px;
+  font-weight: 700;
+}
+
+.zen-modal__action--ghost {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--zen-color-text);
+}
+
+.zen-modal__action--primary {
+  background: linear-gradient(135deg, var(--zen-color-primary-start), var(--zen-color-primary-end));
+  color: #06111b;
+}
+
+.zen-modal-fade-enter-active,
+.zen-modal-fade-leave-active {
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.zen-modal-fade-enter-from,
+.zen-modal-fade-leave-to {
+  opacity: 0;
+}
+
+.zen-modal-fade-enter-from .zen-modal,
+.zen-modal-fade-leave-to .zen-modal {
+  transform: translateY(10px) scale(0.98);
+}
+
+@keyframes zen-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

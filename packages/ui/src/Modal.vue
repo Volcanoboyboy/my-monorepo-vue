@@ -1,93 +1,159 @@
-<template>
+﻿<template>
   <Teleport to="body">
-    <div v-if="visible" class="my-modal-overlay" @click="handleOverlayClick">
-      <div class="my-modal" @click.stop>
-        <div class="my-modal-header">
-          <slot name="header">{{ title }}</slot>
-          <button class="my-modal-close" @click="handleClose">×</button>
-        </div>
-        <div class="my-modal-body">
-          <slot />
-        </div>
-        <div class="my-modal-footer">
-          <slot name="footer">
-            <button class="my-modal-btn" @click="handleClose">关闭</button>
-          </slot>
+    <Transition name="zen-modal-fade">
+      <div v-if="visible" class="zen-modal-overlay" @click="handleOverlayClick">
+        <div
+          class="zen-modal"
+          :style="modalStyle"
+          role="dialog"
+          aria-modal="true"
+          :aria-labelledby="title ? titleId : undefined"
+          @click.stop
+        >
+          <header v-if="$slots.header || title || closable" class="zen-modal__header">
+            <div>
+              <slot name="header">
+                <h2 v-if="title" :id="titleId" class="zen-modal__title">{{ title }}</h2>
+                <p v-if="description" class="zen-modal__description">{{ description }}</p>
+              </slot>
+            </div>
+            <button
+              v-if="closable"
+              class="zen-modal__close"
+              type="button"
+              aria-label="Close modal"
+              @click="handleClose"
+            >
+              ×
+            </button>
+          </header>
+
+          <section class="zen-modal__body">
+            <slot />
+          </section>
+
+          <footer v-if="showFooter || $slots.footer" class="zen-modal__footer">
+            <slot name="footer">
+              <button
+                class="zen-modal__action zen-modal__action--ghost"
+                type="button"
+                @click="handleCancel"
+              >
+                {{ cancelText }}
+              </button>
+              <button
+                class="zen-modal__action zen-modal__action--primary"
+                type="button"
+                :disabled="loading"
+                @click="handleConfirm"
+              >
+                {{ loading ? 'Working...' : confirmText }}
+              </button>
+            </slot>
+          </footer>
         </div>
       </div>
-    </div>
+    </Transition>
   </Teleport>
 </template>
 
 <script setup lang="ts">
-defineProps<{
-  visible: boolean
-  title?: string
-}>()
+import { computed, onBeforeUnmount, watch } from 'vue'
+
+const props = withDefaults(
+  defineProps<{
+    visible: boolean
+    title?: string
+    description?: string
+    width?: string | number
+    closable?: boolean
+    closeOnOverlay?: boolean
+    closeOnEsc?: boolean
+    showFooter?: boolean
+    confirmText?: string
+    cancelText?: string
+    loading?: boolean
+  }>(),
+  {
+    title: '',
+    description: '',
+    width: 520,
+    closable: true,
+    closeOnOverlay: true,
+    closeOnEsc: true,
+    showFooter: true,
+    confirmText: 'Confirm',
+    cancelText: 'Cancel',
+    loading: false,
+  }
+)
 
 const emit = defineEmits<{
   'update:visible': [value: boolean]
   close: []
+  confirm: []
+  cancel: []
 }>()
 
-const handleClose = () => {
+const titleId = `zen-modal-title-${Math.random().toString(36).slice(2, 10)}`
+
+const modalStyle = computed(() => ({
+  width: typeof props.width === 'number' ? `${props.width}px` : props.width,
+}))
+
+const closeModal = () => {
   emit('update:visible', false)
   emit('close')
 }
 
-const handleOverlayClick = () => {
-  handleClose()
+const handleClose = () => {
+  closeModal()
 }
-</script>
 
-<style>
-.my-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+const handleCancel = () => {
+  emit('cancel')
+  closeModal()
 }
-.my-modal {
-  background: white;
-  border-radius: 8px;
-  width: 500px;
-  max-width: 90%;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+
+const handleConfirm = () => {
+  emit('confirm')
 }
-.my-modal-header {
-  padding: 16px 20px;
-  border-bottom: 1px solid #eee;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: bold;
+
+const handleOverlayClick = () => {
+  if (props.closeOnOverlay) {
+    closeModal()
+  }
 }
-.my-modal-close {
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
+
+const handleKeydown = (event: KeyboardEvent) => {
+  if (event.key === 'Escape' && props.visible && props.closeOnEsc) {
+    closeModal()
+  }
 }
-.my-modal-body {
-  padding: 20px;
-}
-.my-modal-footer {
-  padding: 12px 20px;
-  border-top: 1px solid #eee;
-  text-align: right;
-}
-.my-modal-btn {
-  padding: 6px 12px;
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-</style> 
+
+watch(
+  () => props.visible,
+  (visible) => {
+    if (typeof window === 'undefined') {
+      return
+    }
+
+    if (visible) {
+      window.addEventListener('keydown', handleKeydown)
+      document.body.style.overflow = 'hidden'
+      return
+    }
+
+    window.removeEventListener('keydown', handleKeydown)
+    document.body.style.overflow = ''
+  },
+  { immediate: true }
+)
+
+onBeforeUnmount(() => {
+  if (typeof window !== 'undefined') {
+    window.removeEventListener('keydown', handleKeydown)
+    document.body.style.overflow = ''
+  }
+})
+</script>

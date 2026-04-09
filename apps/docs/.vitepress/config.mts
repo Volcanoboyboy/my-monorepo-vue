@@ -1,32 +1,34 @@
-import { defineConfig } from 'vitepress'
+﻿import { defineConfig } from 'vitepress'
 import { resolve } from 'path'
 
-// https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "My monorepo Components",
-  description: "组件库文档",
+  title: 'Zen Repo UI',
+  description: 'AI-inspired Vue component library docs for the Zen Repo monorepo.',
   themeConfig: {
-    // https://vitepress.dev/reference/default-theme-config
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' }
+      { text: 'Guide', link: '/' },
+      { text: 'Components', link: '/components/button' },
     ],
-
     sidebar: [
-      { text: 'Button', link: '/components/button' },
-      { text: 'Input', link: '/components/input' },
-      { text: 'Modal', link: '/components/modal' },
+      {
+        text: 'Getting Started',
+        items: [{ text: 'Overview', link: '/' }],
+      },
+      {
+        text: 'Components',
+        items: [
+          { text: 'Button', link: '/components/button' },
+          { text: 'Input', link: '/components/input' },
+          { text: 'Modal', link: '/components/modal' },
+        ],
+      },
     ],
-
-    socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
-    ]
+    socialLinks: [{ icon: 'github', link: 'https://github.com/vuejs/vitepress' }],
   },
   vite: {
     resolve: {
       alias: {
-        // 将 @zen-repo/ui 指向 packages/ui 的源码入口
-        '@zen-repo/ui': resolve(__dirname, '../../../packages/ui/src'),
+        '@zen-repo/ui': resolve(__dirname, '../../../packages/ui/src/index.ts'),
       },
     },
   },
